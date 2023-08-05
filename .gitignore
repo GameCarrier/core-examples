@@ -1,0 +1,13 @@
+.vs
+.vscode
+.cache
+
+*.suo
+.*.swp
+.*.swo
+
+*.log
+build/
+
+authentication.dat
+gc_client_shared.dll

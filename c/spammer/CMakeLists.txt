@@ -1,0 +1,5 @@
+add_executable(spammer spammer.c)
+target_link_libraries(spammer PRIVATE ${gc_client_libs})
+target_include_directories(spammer PRIVATE ${gc_include})
+target_link_options(spammer PRIVATE ${gc_client_ldflags})
+set_target_properties(spammer PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/clients")

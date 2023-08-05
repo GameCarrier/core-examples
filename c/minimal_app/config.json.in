@@ -1,0 +1,57 @@
+{
+    "comment": "A configuration for testing native C++ adapter",
+
+    "adapters": [
+        {
+            "comment": "Native adapter",
+            "type": "native",
+            "dir": "@gc_app_dir@",
+            "name": "minimal_app",
+            "apps": [
+                {
+                    "name": "minimal_app",
+                    "type_name": "minimal_app",
+                    "file_name": "minimal_app"
+                }
+            ]
+        }
+    ],
+
+    "vhosts": [
+        {
+            "comment": "Primary host",
+            "ip": "0.0.0.0",
+            "port": 7681,
+            "protocol": "wss",
+            "app": "minimal_app"
+        }
+    ],
+
+    "logging": {
+        "comment": "%p means PID",
+        "log_file": "gcs.%p.log",
+        "level": "NORMAL"
+    },
+
+    "keep_alive": {
+        "comment": "zero timeout means no keep alive",
+        "timeout": 0,
+        "retries": 5,
+        "interval": 100
+    },
+
+    "threading": {
+        "worker_count": 12,
+        "use_libuv": true
+    },
+
+    "counters": {
+        "per_second_window": 10,
+        "update_interval": 10,
+        "comment": "counters section"
+    },
+
+    "group_max_size": 42,
+    "max_groups": 1000,
+    "max_client_connections": 99
+}

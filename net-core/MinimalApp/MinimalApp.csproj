@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <BaseOutputPath>../../build/bin/apps</BaseOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConfigPatcher\ConfigPatcher.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="GC.Adapter">
+      <HintPath>C:\Program Files (x86)\Game Carrier\Bin\net6.0\GC.Adapter.dll</HintPath>
+    </Reference>
+    <Reference Include="GC.Common">
+      <HintPath>C:\Program Files (x86)\Game Carrier\Bin\net6.0\GC.Common.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<Exec Command="$(ProjectDir)../../build/bin/utils/$(Configuration)/$(TargetFramework)/ConfigPatcher.exe $(ProjectDir)config.json.in $(ProjectDir)../../build/configs/$(TargetFramework)-minimal-app.json" />
+  </Target>
+
+</Project>

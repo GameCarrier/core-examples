@@ -1,0 +1,42 @@
+function(find_game_carrier)
+    set(GAME_CARRIER_FOUND "NO" PARENT_SCOPE)
+    set(GAME_CARRIER_CLIENT_LIB "NOT-FOUND" PARENT_SCOPE)
+    set(GAME_CARRIER_INCLUDE_DIR "NOT-FOUND" PARENT_SCOPE)
+    set(GAME_CARRIER_CLIENT_LDFLAGS "NOT-FOUND" PARENT_SCOPE)
+
+    if (WIN32)
+        get_filename_component(BASEDIR "[HKEY_LOCAL_MACHINE\\SOFTWARE\\GameCarrier;Path]" ABSOLUTE CACHE)
+        if ("${BASEDIR}" STREQUAL "/registry")
+            message("-- Not found Game Carrier")
+            return()
+        endif()
+
+        find_library(STATIC_LIB NAMES gcclient_static PATHS "${BASEDIR}\\Client")
+
+        set(GAME_CARRIER_INCLUDE_DIR "${BASEDIR}\\Include" PARENT_SCOPE)
+        set(GAME_CARRIER_CLIENT_LIB "${STATIC_LIB}" PARENT_SCOPE)
+        set(GAME_CARRIER_CLIENT_LDFLAGS "" PARENT_SCOPE)
+        set(GAME_CARRIER_FOUND "YES" PARENT_SCOPE)
+        message("-- Found Game Carrier: ${BASEDIR}")
+
+    else()
+        find_package(PkgConfig)
+        if (NOT PkgConfig_FOUND)
+            message("==> Not set: PkgConfig_FOUND=${PkgConfig_FOUND}")
+            return()
+        endif()
+
+        pkg_check_modules(GCCLIENT gcclient)
+        if (NOT GCCLIENT_FOUND)
+            message("==> Not set: GCCLIENT_FOUND=${GCCLIENT_FOUND}")
+            return()
+        endif()
+
+        set(GAME_CARRIER_INCLUDE_DIR "${GCCLIENT_INCLUDE_DIRS}" PARENT_SCOPE)
+        set(GAME_CARRIER_CLIENT_LDFLAGS "${GCCLIENT_LDFLAGS}" PARENT_SCOPE)
+        set(GAME_CARRIER_CLIENT_LIB "${GCCLIENT_LIBRARIES}" PARENT_SCOPE)
+        set(GAME_CARRIER_FOUND "YES" PARENT_SCOPE)
+        message("-- Found Game Carrier: ${GCCLIENT_FOUND}")
+    endif()
+
+endfunction()

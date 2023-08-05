@@ -1,0 +1,57 @@
+{
+    "comment": "A configuration for minimal C# .NET Core adapter application",
+
+    "adapters": [
+        {
+            "comment": "Nethost adapter",
+            "type": "nethost",
+            "dir": "C:/Program Files (x86)/Game Carrier/Bin/net6.0",
+            "name": "GC.Runtime",
+            "apps": [
+                {
+                    "name": "MinimalApp",
+                    "type_name": "GameCarrier.Examples.MinimalApp",
+                    "file_name": "@gc_app_dir@/@gc_build_type@/@gc_target_framework@/MinimalApp.dll"
+                }
+            ]
+        }
+    ],
+
+    "vhosts": [
+        {
+            "comment": "Primary host",
+            "ip": "0.0.0.0",
+            "port": 7681,
+            "protocol": "wss",
+            "app": "MinimalApp"
+        }
+    ],
+
+    "logging": {
+        "comment": "%p means PID",
+        "log_file": "gcs.%p.log",
+        "level": "VERBOSE"
+    },
+
+    "keep_alive": {
+        "comment": "zero timeout means no keep alive",
+        "timeout": 0,
+        "retries": 5,
+        "interval": 100
+    },
+
+    "threading": {
+        "worker_count": 12,
+        "use_libuv": true
+    },
+
+    "counters": {
+        "per_second_window": 10,
+        "update_interval": 10,
+        "comment": "counters section"
+    },
+
+    "group_max_size": 42,
+    "max_groups": 1000,
+    "max_client_connections": 99
+}
